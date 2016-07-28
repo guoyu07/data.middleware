@@ -33,6 +33,9 @@ abstract class Middleware
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
     protected function resetProviders()
     {
         $dataOriginal = $this->dataOriginal();
@@ -46,6 +49,9 @@ abstract class Middleware
         return $dataOriginal;
     }
 
+    /**
+     * @return bool|mixed
+     */
     protected function getProviders()
     {
         foreach ($this->providers as $provider) {
@@ -66,6 +72,8 @@ abstract class Middleware
     }
 
     /**
+     * 数据源, 所有缓存数据最终来源。
+     *
      * @return mixed
      */
     abstract public function dataOriginal();

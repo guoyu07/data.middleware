@@ -35,4 +35,18 @@ class MiddlewareTest extends PHPUnit_Framework_TestCase
             'name' => 'jan for level 1'
         ]);
     }
+
+    public function testLevel_2_Middleware()
+    {
+        $middleware = new MysqlMiddleware();
+
+        $middleware->append(new LevelProvider1());
+        $middleware->append(new LevelProvider2());
+
+        $result = $middleware->invoke();
+
+        $this->assertEquals($result, [
+            'name' => 'jan for level 1'
+        ]);
+    }
 }

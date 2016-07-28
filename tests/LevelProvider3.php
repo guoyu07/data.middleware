@@ -9,15 +9,14 @@ use FastD\Middleware\ProviderInterface;
  * @link      https://www.github.com/janhuang
  * @link      http://www.fast-d.cn/
  */
-class LevelProvider2 implements ProviderInterface
+class LevelProvider3 implements ProviderInterface
 {
-
     /**
      * @return string
      */
     public function name()
     {
-        return 'level.2';
+        return 'level.3';
     }
 
     /**
