@@ -1,5 +1,6 @@
 <?php
 use FastD\Middleware\ProviderInterface;
+use FastD\Storage\File\File;
 
 /**
  *
@@ -26,7 +27,7 @@ class CacheLevel1 implements ProviderInterface
      */
     public function set($content)
     {
-
+        File::open(__DIR__ . '/' . $this->name())->set(json_encode($content, JSON_UNESCAPED_UNICODE));
     }
 
     /**
@@ -34,7 +35,8 @@ class CacheLevel1 implements ProviderInterface
      */
     public function get()
     {
-        // TODO: Implement get() method.
+        return 'from cache';
+        return json_decode(File::open(__DIR__ . '/' . $this->name())->get(), true);
     }
 
     /**
@@ -44,7 +46,7 @@ class CacheLevel1 implements ProviderInterface
      */
     public function weight()
     {
-        // TODO: Implement weight() method.
+        return 50;
     }
 
     /**
@@ -52,6 +54,7 @@ class CacheLevel1 implements ProviderInterface
      */
     public function isHit()
     {
-        // TODO: Implement isHit() method.
+        return true;
+        return file_exists(__DIR__ . '/' . $this->name()) && filesize(__DIR__ . '/' . $this->name()) > 0;
     }
 }

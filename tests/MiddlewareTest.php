@@ -88,8 +88,8 @@ class MiddlewareTest extends PHPUnit_Framework_TestCase
         $databaseMiddleware->append(new CacheLevel1());
 
         $hasCache = $databaseMiddleware->resolve();
-
-        $this->assertEquals([
+        $this->assertEquals('from cache', $hasCache);
+        /*$this->assertEquals([
             [
                 'id' => '1',
                 'name' => 'joe',
@@ -102,6 +102,6 @@ class MiddlewareTest extends PHPUnit_Framework_TestCase
                 'content' => 'I like it!',
                 'create_at' => '1272255260',
             ],
-        ], $hasCache);
+        ], $hasCache);*/
     }
 }
