@@ -9,24 +9,24 @@ use FastD\Middleware\ProviderInterface;
  * @link      https://www.github.com/janhuang
  * @link      http://www.fast-d.cn/
  */
-class LevelProvider1 implements ProviderInterface
+class CacheLevel1 implements ProviderInterface
 {
+
     /**
      * @return string
      */
     public function name()
     {
-        return 'level.1';
+        return 'db.cache.level.1';
     }
 
     /**
-     * @param $name
      * @param $content
      * @return mixed
      */
     public function set($content)
     {
-        // TODO: Implement set() method.
+
     }
 
     /**
@@ -34,9 +34,7 @@ class LevelProvider1 implements ProviderInterface
      */
     public function get()
     {
-        return [
-            'name' => 'jan for level 1'
-        ];
+        // TODO: Implement get() method.
     }
 
     /**
@@ -46,7 +44,7 @@ class LevelProvider1 implements ProviderInterface
      */
     public function weight()
     {
-        return 100;
+        // TODO: Implement weight() method.
     }
 
     /**
@@ -54,6 +52,6 @@ class LevelProvider1 implements ProviderInterface
      */
     public function isHit()
     {
-        return true;
+        // TODO: Implement isHit() method.
     }
 }

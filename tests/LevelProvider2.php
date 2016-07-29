@@ -24,7 +24,7 @@ class LevelProvider2 implements ProviderInterface
      * @param $content
      * @return mixed
      */
-    public function set($name, $content)
+    public function set($content)
     {
         // TODO: Implement set() method.
     }
@@ -44,7 +44,7 @@ class LevelProvider2 implements ProviderInterface
      */
     public function weight()
     {
-        // TODO: Implement weight() method.
+        return 80;
     }
 
     /**

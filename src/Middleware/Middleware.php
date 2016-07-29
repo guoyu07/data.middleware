@@ -18,9 +18,14 @@ namespace FastD\Middleware;
 abstract class Middleware
 {
     /**
-     * @var ProviderInterface[]
+     * @var array
      */
     protected $providers = [];
+
+    /**
+     * @var ProviderInterface[]
+     */
+    protected $notHitProviders = [];
 
     /**
      * @param ProviderInterface $provider
@@ -28,7 +33,10 @@ abstract class Middleware
      */
     public function append(ProviderInterface $provider)
     {
-        $this->providers[] = $provider;
+        $this->providers[] = [
+            'provider' => $provider,
+            'weight' => (int) $provider->weight(),
+        ];
 
         return $this;
     }
@@ -40,10 +48,8 @@ abstract class Middleware
     {
         $dataOriginal = $this->dataOriginal();
 
-        foreach ($this->providers as $provider) {
-            if (!$provider->isHit()) {
-                $provider->set($provider->name(), $dataOriginal);
-            }
+        foreach ($this->notHitProviders as $provider) {
+            $provider->set($dataOriginal);
         }
 
         return $dataOriginal;
@@ -54,9 +60,15 @@ abstract class Middleware
      */
     protected function getProviders()
     {
+        uasort($this->providers, function ($a, $b) {
+            return $b['weight'] - $a['weight'];
+        });
+
         foreach ($this->providers as $provider) {
-            if ($provider->isHit()) {
-                return $provider->get();
+            if ($provider['provider']->isHit()) {
+                return $provider['provider']->get();
+            } else {
+                $this->notHitProviders[] = $provider['provider'];
             }
         }
 
@@ -66,7 +78,7 @@ abstract class Middleware
     /**
      * @return mixed|bool
      */
-    public function invoke()
+    public function resolve()
     {
         return ($data = $this->getProviders()) ? $data : $this->resetProviders();
     }

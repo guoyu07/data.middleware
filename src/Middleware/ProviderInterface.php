@@ -23,11 +23,10 @@ interface ProviderInterface
     public function name();
 
     /**
-     * @param $name
      * @param $content
      * @return mixed
      */
-    public function set($name, $content);
+    public function set($content);
 
     /**
      * @return mixed
