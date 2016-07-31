@@ -23,18 +23,18 @@ abstract class Middleware
     protected $providers = [];
 
     /**
-     * @var ProviderInterface[]
+     * @var DataProvider[]
      */
     protected $notHitProviders = [];
 
     /**
-     * @param ProviderInterface $provider
+     * @param DataProvider $dataProvider
      * @return $this
      */
-    public function append(ProviderInterface $provider)
+    public function append(DataProvider $dataProvider)
     {
         $this->providers[] = [
-            'provider' => $provider,
+            'provider' => $dataProvider,
             'weight' => (int) $provider->weight(),
         ];
 
