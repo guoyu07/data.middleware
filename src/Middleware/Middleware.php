@@ -35,7 +35,7 @@ abstract class Middleware
     {
         $this->providers[] = [
             'provider' => $dataProvider,
-            'weight' => (int) $provider->weight(),
+            'weight' => (int) $dataProvider->weight(),
         ];
 
         return $this;
