@@ -8,7 +8,7 @@
     ],
     "require": {
         "php": ">=5.5",
-        "fastd/storage": "~2.0.0"
+        "fastd/storage": "2.1.x-dev"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.0",

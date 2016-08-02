@@ -10,8 +10,10 @@
 
 namespace FastD\Middleware;
 
-use FastD\Database\Cache\CacheInterface;
-use FastD\Storage\Redis\Redis;
+use FastD\Storage\Cache;
+use FastD\Storage\CacheInterface;
+use FastD\Storage\Driver\StorageDriver;
+use FastD\Storage\Storage;
 
 /**
  * Class DataProvider
@@ -21,9 +23,19 @@ use FastD\Storage\Redis\Redis;
 abstract class DataProvider implements ProviderDriverInterface
 {
     /**
-     * @var CacheInterface
+     * @var Storage
      */
-    protected static $driver;
+    protected $storage;
+
+    /**
+     * DataProvider constructor.
+     *
+     * @param StorageDriver $driver
+     */
+    public function __construct(StorageDriver $driver)
+    {
+        $this->storage = new Storage($driver);
+    }
 
     /**
      * @return string
@@ -36,30 +48,37 @@ abstract class DataProvider implements ProviderDriverInterface
     abstract function weight();
 
     /**
-     * @param array $config
+     * @return Storage
+     */
+    public function getStorageDriver()
+    {
+        return $this->storage;
+    }
+
+    /**
      * @return CacheInterface
      */
-    public function getDriver(array $config = [])
-    {
-        if (null === static::$driver) {
-            static::$driver = new Redis($config);
-        }
-
-        return static::$driver;
-    }
-
     public function get()
     {
-        return $this->getDriver()->getCache($this->getName());
+        return $this->getStorageDriver()->getCache($this->getName())->getContent();
     }
 
+    /**
+     * @param $content
+     * @return $this
+     */
     public function set($content)
     {
-        return $this->getDriver()->set($content);
+        $this->getStorageDriver()->setCache(new Cache($this->getName(), $content));
+
+        return $this;
     }
 
+    /**
+     * @return mixed
+     */
     public function isHit()
     {
-
+        return $this->getStorageDriver()->getCache($this->getName())->isHit();
     }
 }

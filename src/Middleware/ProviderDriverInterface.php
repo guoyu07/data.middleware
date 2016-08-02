@@ -20,8 +20,7 @@ use FastD\Storage\StorageInterface;
 interface ProviderDriverInterface
 {
     /**
-     * @param array $config
      * @return StorageInterface
      */
-    public function getDriver(array $config);
+    public function getStorageDriver();
 }

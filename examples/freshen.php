@@ -58,5 +58,5 @@ class RedisProvider extends DataProvider
 
 $middleware = new MySQLMiddleware();
 $middleware->append(new RedisProvider());
-$data = $middleware->resolve();
+$data = $middleware->freshen();
 var_dump($data);

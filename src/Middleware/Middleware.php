@@ -10,6 +10,8 @@
 
 namespace FastD\Middleware;
 
+use Exception;
+
 /**
  * Class Middleware
  *
@@ -65,9 +67,13 @@ abstract class Middleware
         });
 
         foreach ($this->providers as $provider) {
-            if ($provider['provider']->isHit()) {
-                return $provider['provider']->get();
-            } else {
+            try {
+                if ($provider['provider']->isHit()) {
+                    return $provider['provider']->get();
+                } else {
+                    $this->notHitProviders[] = $provider['provider'];
+                }
+            } catch (Exception $e) {
                 $this->notHitProviders[] = $provider['provider'];
             }
         }
@@ -80,7 +86,19 @@ abstract class Middleware
      */
     public function resolve()
     {
-        return ($data = $this->getProviders()) ? $data : $this->resetProviders();
+        return false !== ($data = $this->getProviders()) ? $data : $this->resetProviders();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function freshen()
+    {
+        foreach ($this->providers as $provider) {
+            $this->notHitProviders[] = $provider['provider'];
+        }
+
+        return $this->resetProviders();
     }
 
     /**
